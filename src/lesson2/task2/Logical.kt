@@ -61,6 +61,5 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    (a + b + c - Math.max(a, Math.max(b, c)) - Math.min(a, Math.min(b, c)) <= Math.max(r, s)) &&
-            (Math.min(a, Math.min(b, c)) <= Math.min(r, s))
-//Math.min(Math.max(a,b), Math.max(b,c)) == Math.max(r,s) && Math.min(a,b,c) == Math.min(r,s)
+    (a + b + c - maxOf(a, maxOf(b, c)) - minOf(a, minOf(b, c)) <= maxOf(r, s)) &&
+            (minOf(a, minOf(b, c)) <= minOf(r, s))
