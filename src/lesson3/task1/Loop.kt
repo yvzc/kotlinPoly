@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -207,13 +208,22 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Сложная (4 балла)
  *
  * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
+ * 1491625  36496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
-
+fun squareSequenceDigit(n: Int): Int {
+    var i = 1
+    var count = 0
+    var square = 0
+    while (count < n) {
+        square = i * i
+        count += digitNumber(square)
+        i++
+    }
+    return square / 10.0.pow(count - n).toInt() % 10
+}
 
 /**
  * Сложная (5 баллов)
