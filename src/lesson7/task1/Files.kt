@@ -129,14 +129,10 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val lines = File(inputName).readLines().map { it.trim() }
-    val maxLength = lines.maxBy { it.length }.length
-    val writer = File(outputName).bufferedWriter()
-    for (line in lines) {
-        writer.write(" ".repeat((maxLength - line.length) / 2) + line)
-        writer.newLine()
-    }
-    writer.close()
+    val maxLength = lines.maxBy { it.length }?.length ?: 0
+    File(outputName).writeText(lines.joinToString("\n") { it.padStart(it.length + (maxLength - it.length) / 2) })
 }
+
 
 
 /**
@@ -190,7 +186,9 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> = TODO()
+fun top20Words(inputName: String): Map<String, Int> {
+    TODO()
+}
 
 /**
  * Средняя (14 баллов)
