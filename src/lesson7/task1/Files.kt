@@ -75,7 +75,22 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val result = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().lowercase()
+    for (substring in substrings) {
+        var count = 0
+        var index = text.indexOf(substring.lowercase())
+        while (index != -1) {
+            count++
+            index = text.indexOf(substring.lowercase(), index + 1)
+        }
+        result[substring] = count
+    }
+    return result
+}
+
+
 
 
 /**
@@ -113,8 +128,16 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines().map { it.trim() }
+    val maxLength = lines.maxBy { it.length }.length
+    val writer = File(outputName).bufferedWriter()
+    for (line in lines) {
+        writer.write(" ".repeat((maxLength - line.length) / 2) + line)
+        writer.newLine()
+    }
+    writer.close()
 }
+
 
 /**
  * Сложная (20 баллов)

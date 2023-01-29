@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -284,7 +286,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    for (i in list.indices) {
+        for (j in i + 1 until list.size) {
+            if (list[i] + list[j] == number) return Pair(i, j)
+        }
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)
@@ -307,4 +316,27 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val result = mutableSetOf<String>()
+    val table = Array(treasures.size + 1) { IntArray(capacity + 1) }
+    for (i in 1..treasures.size) {
+        val (weight, cost) = treasures.values.elementAt(i - 1)
+        for (j in 1..capacity) {
+            table[i][j] = if (weight <= j)
+                maxOf(table[i - 1][j], table[i - 1][j - weight] + cost)
+            else
+                table[i - 1][j]
+        }
+    }
+    var i = treasures.size
+    var j = capacity
+    while (i > 0 && j > 0) {
+        if (table[i][j] == table[i - 1][j]) i--
+        else {
+            result += treasures.keys.elementAt(i - 1)
+            j -= treasures.values.elementAt(i - 1).first
+            i--
+        }
+    }
+    return result
+}
